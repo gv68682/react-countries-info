@@ -5,6 +5,7 @@ import {Button} from 'react-bootstrap'
 //import 'bootstrap/dist/css/bootstrap.css'
 import axios from 'axios'
 import './App.css';
+import './countries.css'
 
 const Pagination = ({ items, pageSize, onPageChange }) => {
   if (items.length <= 1) return null;
@@ -12,17 +13,17 @@ const Pagination = ({ items, pageSize, onPageChange }) => {
   let pages = range(1, num);
   const list = pages.map((page) => {
     return (
-      <Button key={page} onClick={onPageChange} className="custom-btn">
+      <Button key={page} onClick={onPageChange} className="custom-btn2">
         {page}
       </Button>
     );
   });
   return (
     <nav>
-      <ul style={{
+      <ul  style={{
           width: '350px',
           overflowY: 'auto',
-      }} className="pagination">{list}</ul>
+      }}  className="pagination">{list}</ul>
     </nav>
   );
 };
@@ -96,15 +97,15 @@ const dataFetchReducer = (state, action) => {
   }
 };
 // App that gets data from Hacker News url
-function App() {
+function Countries() {
   const { Fragment, useState, useEffect, useReducer } = React;
-  const [query, setQuery] = useState("dollar");
+  const [query, setQuery] = useState("usa");
   console.log(query)
   const [currentPage, setCurrentPage] = useState(1);
-  const pageSize = 4;
+  const pageSize = 3;
   const [{ data, isLoading, isError }, doFetch] = useDataApi(
 
-    "https://restcountries.com/v3.1/currency/dollar",
+    "https://restcountries.com/v2/all",
     []
   );
   const handlePageChange = e => {
@@ -116,23 +117,24 @@ function App() {
     console.log(`currentPage: ${currentPage}`);
   }
   return (
-    <Fragment className='app-form'>
-      <form className='search-form'
+    <Fragment>
+      <form className='search-form2'
         onSubmit={event => {
           //http://api.airvisual.com/v2/cities?state={{STATE_NAME}}&country={{COUNTRY_NAME}}&key={{YOUR_API_KEY}}
-          doFetch(`https://restcountries.com/v3.1/currency/${query}`);
+          doFetch(`https://restcountries.com/v2/name/${query}`);
           setCurrentPage(1)
           event.preventDefault();
         }}
       > 
-        <h6>Search Currency</h6>
+
+        <h6>Search Country</h6>
         <input
           type="text"
           value={query}
-          className = "text-input"
+          className = "text-input2"
           onChange={event => setQuery(event.target.value)}
         />
-        <button type="submit" className="text-submit">Search</button>
+        <button type="submit" className="text-submit2">Search</button>
       </form>
 
       {isError && <div>Something went wrong ...</div>}
@@ -140,14 +142,20 @@ function App() {
       {isLoading ? (
         <div>Loading ...</div>
       ) : (
-        <ol className="ordered-list"> 
+        <ol className= "ordered-list2"> 
           {page.map((item, index) => (
             <li key={index} className="data">
               <img src={item.flags.png}/>
-              <h5><b>Country name:</b> {item.name.common}</h5>
-              <h5><b>Currency name:</b> {item.currencies[Object.keys(item.currencies)[0]].name}</h5>
+              <h5><b>Country name:</b> {item.name}</h5>
+              <h5><b>Capital:</b> {item.capital}</h5>
               <h5><b>Region:</b> {item.region}</h5>
+              <h5><b>Area:</b> {item.area}</h5>
               <h5><b>Population:</b> {item.population}</h5>
+              {item.independent ?  <h5><b>Independent:</b> Yes</h5> :   <h5><b>Independent:</b> No </h5>}
+              <h5><b>Language:</b> {item.languages[0].name}</h5>
+              <h5><b>Timezones:</b> {item.timezones[0]}</h5>
+              <h5><b>Calling codes:</b> {item.callingCodes[0]}</h5>
+           
               {/* <img src={item.maps.googleMaps}/> */}
             </li>
           ))}
@@ -163,6 +171,6 @@ function App() {
 }
 
 // ========================================
-//ReactDOM.render(<App />, document.getElementById("root"));
+//ReactDOM.render(<Countries />, document.getElementById("root"));
 
-export default App;
+export default Countries;

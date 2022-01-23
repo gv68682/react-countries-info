@@ -12,7 +12,7 @@
     animation: App-logo-spin infinite 20s linear;
   }
 }
-
+/* 
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
@@ -22,7 +22,7 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
-}
+} */
 
 .App-link {
   color: #61dafb;
@@ -35,4 +35,31 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.data{
+  padding-top: 60px;
+}
+.custom-btn {
+  background-color: azure;
+  border-color: black;
+  color:black;
+  margin-top: 290px;
+}
+
+.app-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.search-form {
+  margin: 32px;
+  padding-left: 33px;
+  /* padding-right: 100px; */
+}
+.text-input {
+  background-color: azure;
+}
+.text-submit {
+  background-color: azure;
 }
